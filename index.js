@@ -123,7 +123,7 @@ const filterVerticesByAngle = (vertices, maxAngleDeg) =>
 const blue = new cv.Vec(255, 0, 0);
 const green = new cv.Vec(0, 255, 0);
 const red = new cv.Vec(0, 0, 255);
-
+// i = 0;
 // main
 
 app.post("/", (req, res) => {
@@ -189,8 +189,8 @@ app.post("/", (req, res) => {
     resizedImg.copyTo(sideBySide.getRegion(new cv.Rect(cols, 0, cols, rows)));
 
     // cv.imshow('handMask', handMask);
-    // cv.imshow('result', sideBySide);
-
+    // cv.imwrite(i + '.jpg', sideBySide);
+    // i++;
     res.send(verticesWithValidAngle);
 });
 

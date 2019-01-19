@@ -9,7 +9,7 @@
 </head>
 <body>
     <video id="video" width="640" height="480" autoplay style="display: none;"></video>
-    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+    <canvas id="canvas" width="640" height="480" style="margin-left: 35%; margin-top: 11%; border: 1px solid black;"></canvas>
 
     <script>
         var video = document.getElementById('video');
@@ -18,25 +18,32 @@
         if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             // Not adding `{ audio: true }` since we only want video now
             navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                //video.src = window.URL.createObjectURL(stream);
                 video.srcObject = stream;
-                // video.play();
             });
         }
         // Elements for taking the snapshot
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
         var video = document.getElementById('video');
-
-        // Trigger photo take
-        setInterval(function() {
-            context.drawImage(video, 0, 0, 640, 480);
-            let encode = canvas.toDataURL();
-            encode = encode.replace(/^data:image\/(png|jpg);base64,/, "");
-            $.post(`http://localhost:3000`, { photo: encode }).done((res) => {
-                console.log(res);
-            });
-        }, 100);
+        
+        var intId;
+        const postMan = () => {
+            intId = setInterval(() => {
+                context.drawImage(video, 0, 0, 640, 480);
+                let encode = canvas.toDataURL();
+                encode = encode.replace(/^data:image\/(png|jpg);base64,/, "");
+                $.post(`http://localhost:3000`, { photo: encode }).done(async (res) => {
+                    let gesture = func(res);
+                    // if(gesture != 0){
+                    //     await setTimeout(() => {
+                    //         intId = window.clearInterval(intId);
+                    //         postMan();
+                    //     }, 500);
+                    // }
+                });
+            }, 100);
+        };
+        postMan();
     </script>
 </body>
 </html>
