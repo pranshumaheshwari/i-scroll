@@ -1,0 +1,13 @@
+{
+    "name": "Hand Gesture Navigation",
+    "version": "1.0",
+    "description": "Extension to navigate using hand gestures.",
+    "background": {
+      "scripts": ["hand.js"],
+      "persistent": false
+    },
+    "page_action": {
+        "deafult_popup": "popup.html"
+    },
+    "manifest_version": 2
+  }
